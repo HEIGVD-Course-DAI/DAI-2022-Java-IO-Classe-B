@@ -14,6 +14,8 @@ public class NoOpCharTransformer {
     public String transform(String c) {
         /* TODO: implement the transformation here.
          */
-        throw new UnsupportedOperationException("The student has not implemented this method yet.");
+        //We simpley return the same String since there is no operation
+        return c;
+        //throw new UnsupportedOperationException("The student has not implemented this method yet.");
     }
 }
