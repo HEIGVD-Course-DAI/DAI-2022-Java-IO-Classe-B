@@ -1,6 +1,12 @@
 package ch.heigvd.api.labio.impl;
 
+import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
+
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,7 +36,8 @@ public class FileTransformer {
      *  and the LineNumberCharTransformer.
      */
     // ... transformer = ...
-
+      LineNumberingCharTransformer transformer1 = new LineNumberingCharTransformer();
+      UpperCaseCharTransformer transformer2 = new UpperCaseCharTransformer();
     /* TODO: implement the following logic here:
      *  - open the inputFile and an outputFile
      *    Use UTF-8 encoding for both.
@@ -40,7 +47,20 @@ public class FileTransformer {
      *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
      */
     try {
+        FileReader fr = new FileReader(inputFile, StandardCharsets.UTF_8);
+        FileWriter fw = new FileWriter(inputFile + ".out", StandardCharsets.UTF_8);
 
+        int c = fr.read();
+
+        while (c != -1) {
+          fw.write(transformer1.transform(
+                  transformer2.transform(String.valueOf((char)c))));
+          c = fr.read();
+        }
+
+        fw.flush();
+        fw.close();
+        fw.close();
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }
