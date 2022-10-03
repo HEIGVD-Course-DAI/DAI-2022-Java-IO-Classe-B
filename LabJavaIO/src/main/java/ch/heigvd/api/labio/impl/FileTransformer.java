@@ -1,6 +1,11 @@
 package ch.heigvd.api.labio.impl;
 
-import java.io.File;
+import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
+
+import java.io.*;
+import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,7 +19,7 @@ import java.util.logging.Logger;
 public class FileTransformer {
     private static final Logger LOG = Logger.getLogger(FileTransformer.class.getName());
 
-    public void transform(File inputFile) {
+    public void transform(File inputFile)  {
         /*
          * This method opens the given inputFile and copies the
          * content to an output file.
@@ -40,6 +45,28 @@ public class FileTransformer {
          *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
          */
         try {
+            // Extracting file content
+            String inputFileContent = Files.readString(inputFile.toPath());
+
+            // Buffered writing output file and applying 3 transformations
+            BufferedWriter writer = new BufferedWriter(new FileWriter(inputFile.getAbsoluteFile() + ".out"));
+
+            NoOpCharTransformer noOpCharTransformer = new NoOpCharTransformer();
+            LineNumberingCharTransformer lineNumberingCharTransformer = new LineNumberingCharTransformer();
+            UpperCaseCharTransformer upperCaseCharTransformer = new UpperCaseCharTransformer();
+
+
+            StringBuilder output = new StringBuilder();
+            for (int i = 0; i < inputFileContent.length(); i++) {
+                String s = Character.toString(inputFileContent.charAt(i));
+                s = noOpCharTransformer.transform(s);
+                s = upperCaseCharTransformer.transform(s);
+                s = lineNumberingCharTransformer.transform(s);
+               writer.write(s);
+            }
+
+            writer.flush();
+            writer.close();
 
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
