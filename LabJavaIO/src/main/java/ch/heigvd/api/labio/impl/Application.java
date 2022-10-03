@@ -79,6 +79,10 @@ public class Application {
        *  the name "quote-i.utf8" where 'i' is the number of the file.
        */
 
+      // Fix :
+      storeQuote(quote, "quote-" + i + ".utf8");
+
+
       LOG.info("Received a new joke with " + quote.getTags().size() + " tags.");
       for (String tag : quote.getTags()) {
         LOG.info("> " + tag);
