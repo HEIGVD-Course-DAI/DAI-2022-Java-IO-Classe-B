@@ -12,40 +12,40 @@ import javax.ws.rs.core.Response;
  * This class provides a method to invoke a web service and to receive a quote.
  * The implementation uses the jersey framework, but you do not need to worry
  * about that. You do not need to modify this file.
- * 
+ * <p>
  * You will use this class to fetch quotes, which you will then save on the
  * file system.
- * 
+ *
  * @author Olivier Liechti
  */
 public class QuoteClient {
 
-  /*
-   * This has changed in the 2016 version of the lab. We were using the "itheardquotes" API, which is now down. We have
-   * replaced it with another API that generates random jokes.
-  */
+    /*
+     * This has changed in the 2016 version of the lab. We were using the "itheardquotes" API, which is now down. We have
+     * replaced it with another API that generates random jokes.
+     */
     static String WEB_SERVICE_ENDPOINT = "https://api.quotable.io/random";
 
-  /**
-   * Use this method to invoke the iheartquotes.com web service and receive
-   * an instance of a Quote.
-   * 
-   * @return an instance of Quote, with values provided by the web service
-   */
-  public Quote fetchQuote() {
-    Client client = ClientBuilder.newBuilder()
-      .register(JacksonFeature.class)
-      .register(SimpleObjectMapperProvider.class)
-      .build();
+    /**
+     * Use this method to invoke the iheartquotes.com web service and receive
+     * an instance of a Quote.
+     *
+     * @return an instance of Quote, with values provided by the web service
+     */
+    public Quote fetchQuote() {
+        Client client = ClientBuilder.newBuilder()
+                .register(JacksonFeature.class)
+                .register(SimpleObjectMapperProvider.class)
+                .build();
 
-    WebTarget target = client.target(WEB_SERVICE_ENDPOINT);
-    Invocation.Builder invocationBuilder = target.request();
-    Response response = invocationBuilder.get();
-    Quote quote = response.readEntity(Quote.class);
-    // In the 2022 version of the lab, we decided to force the generation of random tags, because the new-used API does
-    // not use enough tags and it would make the sort process too easy.
-    quote.setTags(TagsGenerator.pickRandomTags());
-    return quote;
-  }
+        WebTarget target = client.target(WEB_SERVICE_ENDPOINT);
+        Invocation.Builder invocationBuilder = target.request();
+        Response response = invocationBuilder.get();
+        Quote quote = response.readEntity(Quote.class);
+        // In the 2022 version of the lab, we decided to force the generation of random tags, because the new-used API does
+        // not use enough tags and it would make the sort process too easy.
+        quote.setTags(TagsGenerator.pickRandomTags());
+        return quote;
+    }
 
 }
