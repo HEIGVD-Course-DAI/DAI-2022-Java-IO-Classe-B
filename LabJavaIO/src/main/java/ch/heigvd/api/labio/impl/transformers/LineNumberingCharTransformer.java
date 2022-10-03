@@ -19,9 +19,27 @@ import java.util.logging.Logger;
 public class LineNumberingCharTransformer {
   private static final Logger LOG = Logger.getLogger(LineNumberingCharTransformer.class.getName());
 
+  private int lineIndex = 1;
   public String transform(String c) {
     /* TODO: implement the transformation here.
+     * Update : Elliot added the "version moche mais qui marche" on the TODO
      */
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    if(c.length() == 0 || c.equals("\r")) { return ""; }
+
+    if(lineIndex == 1) {
+      // 1ere ligne
+      if(c.equals("\n")) {
+        // cas spécial : 1ere ligne commence par un retour-ligne
+        return String.format("%d. %s%d. ",lineIndex++, c, lineIndex++);
+      } else {
+        return String.format("%d. %s", lineIndex++, c);
+      }
+    } else if(c.equals("\n")) {
+      // retours-ligne
+      return String.format("%s%d. ", c, lineIndex++);
+    } else {
+      return c;
+    }
+    // throw new UnsupportedOperationException("The student has not implemented this method yet.");
   }
 }
