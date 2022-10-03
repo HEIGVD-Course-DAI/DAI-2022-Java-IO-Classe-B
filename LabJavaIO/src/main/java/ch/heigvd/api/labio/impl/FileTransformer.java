@@ -1,6 +1,11 @@
 package ch.heigvd.api.labio.impl;
 
-import java.io.File;
+import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,22 +30,20 @@ public class FileTransformer {
      * a character transformer to transform the character before writing it to the output.
      */
 
-    /* TODO: first start with the NoOpCharTransformer which does nothing.
-     *  Later, replace it by a combination of the UpperCaseCharTransformer
-     *  and the LineNumberCharTransformer.
-     */
-    // ... transformer = ...
+    UpperCaseCharTransformer upperCaseCharTransformer = new UpperCaseCharTransformer();
+    LineNumberingCharTransformer lineNumberingCharTransformer = new LineNumberingCharTransformer();
 
-    /* TODO: implement the following logic here:
-     *  - open the inputFile and an outputFile
-     *    Use UTF-8 encoding for both.
-     *    Filename of the output file: <inputFile-Name>.out (that is add ".out" at the end)
-     *  - Copy all characters from the input file to the output file.
-     *  - For each character, apply a transformation: start with NoOpCharTransformer,
-     *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
-     */
     try {
-      LOG.log(Level.INFO, "FILE WORKING YESSSSSSSSSSSSSSSSS BOYYYYYYYYYYYYYYYYY");
+      FileInputStream fis = new FileInputStream(inputFile);
+      InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
+      BufferedReader reader = new BufferedReader(isr);
+      OutputStream os = new FileOutputStream(inputFile.getAbsolutePath() + ".out");
+
+      char c = '\n';
+      do {
+        os.write(upperCaseCharTransformer.transform(lineNumberingCharTransformer.transform(String.valueOf(c))).getBytes());
+      } while ((c = (char) reader.read()) != 65535);
+
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }
