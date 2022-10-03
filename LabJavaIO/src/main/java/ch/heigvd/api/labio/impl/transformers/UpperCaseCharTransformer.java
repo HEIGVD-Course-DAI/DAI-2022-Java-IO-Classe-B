@@ -14,6 +14,21 @@ public class UpperCaseCharTransformer {
     public String transform(String c) {
         /* TODO: implement the transformation here.
          */
-        throw new UnsupportedOperationException("The student has not implemented this method yet.");
+        //We check if it's a letter and add it to the output string after changing it
+        //https://intellipaat.com/community/35416/how-do-i-apply-the-for-each-loop-to-every-character-in-a-string
+        //https://stackoverflow.com/questions/4047808/what-is-the-best-way-to-tell-if-a-character-is-a-letter-or-number-in-java-withou
+        //https://stackoverflow.com/questions/3696441/converting-a-char-to-uppercase
+        String str = "";
+        for (char n : c.toCharArray() ) {
+            if (Character.isLetter(n)) {
+                //We transform it if it's a letter
+                str += Character.toUpperCase(n);
+            } else {
+                //We just add it otherwise
+                str += n;
+            }
+        }
+        return str;
+        //throw new UnsupportedOperationException("The student has not implemented this method yet.");
     }
 }
