@@ -34,19 +34,5 @@ public class FileExplorer {
             }
         }
 
-        if (!rootDirectory.exists()) return;
-        String[] pathnames = rootDirectory.list();
-        assert pathnames != null;
-        Arrays.sort(pathnames);
-        for (String pathname : pathnames) {
-            Path path = Paths.get(rootDirectory.getAbsolutePath(), pathname);
-            File item = path.toFile();
-            if (item.isFile())
-                transformer.transform(item);
-            else if (item.isDirectory())
-                explore(item);
-        }
-
-    }
     }
 }
