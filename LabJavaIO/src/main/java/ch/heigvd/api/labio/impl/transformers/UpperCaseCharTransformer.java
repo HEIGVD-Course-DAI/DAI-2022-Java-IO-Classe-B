@@ -19,14 +19,12 @@ public class UpperCaseCharTransformer {
         //https://stackoverflow.com/questions/4047808/what-is-the-best-way-to-tell-if-a-character-is-a-letter-or-number-in-java-withou
         //https://stackoverflow.com/questions/3696441/converting-a-char-to-uppercase
         StringBuilder str = new StringBuilder();
-        for (char n : c.toCharArray() ) {
-            if (Character.isLetter(n)) {
-                //We transform it if it's a letter
-                str.append(Character.toUpperCase(n));
-            } else {
-                //We just add it otherwise
-                str.append(n);
-            }
+        if (Character.isLetter(c.toCharArray()[0])) {
+            //We transform it if it's a letter
+            str.append(Character.toUpperCase(c.toCharArray()[0]));
+        } else {
+            //We just add it otherwise
+            str.append(c.toCharArray()[0]);
         }
         return str.toString();
         //throw new UnsupportedOperationException("The student has not implemented this method yet.");
