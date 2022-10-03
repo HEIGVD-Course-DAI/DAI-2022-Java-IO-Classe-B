@@ -138,6 +138,20 @@ public class Application {
      *   Write the file with encoding UTF-8.
      */
 
+    // Fix  test :
+    //FileOutPutStream fos = new FileOutPutStream(file);
+    int b;
+
+    try (OutputStreamWriter writer =
+                 new OutputStreamWriter(new FileOutputStream(file),
+                         StandardCharsets.UTF_8)) {
+      while ( (b = fis.read()) != -1 ) {
+        file.write(b);
+      }
+      fos.close();
+
+    }
+
   }
   
   public void processQuoteFiles() throws IOException {
