@@ -40,7 +40,7 @@ public class FileTransformer {
      *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
      */
     try {
-
+      LOG.log(Level.INFO, "FILE WORKING YESSSSSSSSSSSSSSSSS BOYYYYYYYYYYYYYYYYY");
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }
