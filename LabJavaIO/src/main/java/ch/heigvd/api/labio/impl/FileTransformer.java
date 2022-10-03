@@ -60,7 +60,7 @@ public class FileTransformer {
 
         fw.flush();
         fw.close();
-        fw.close();
+        fr.close();
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }
