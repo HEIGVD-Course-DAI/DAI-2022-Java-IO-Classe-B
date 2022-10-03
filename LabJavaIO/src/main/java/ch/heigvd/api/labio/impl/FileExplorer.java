@@ -28,11 +28,11 @@ public class FileExplorer {
         if (files != null) {
             if (files.length != 0) {
                 Arrays.sort(files);
-                for (int i = 0; i < files.length; ++i) {
-                    if (files[i].isFile())
-                        transformer.transform(files[i]);
+                for (File file : files) {
+                    if (file.isFile())
+                        transformer.transform(file);
                     else
-                        explore(files[i]);
+                        explore(file);
                 }
             }
         }
