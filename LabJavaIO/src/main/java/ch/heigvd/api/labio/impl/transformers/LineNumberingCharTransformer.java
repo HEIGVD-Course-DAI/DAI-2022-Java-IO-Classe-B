@@ -21,20 +21,14 @@ public class LineNumberingCharTransformer {
   private int lineCounter = 1;
   private boolean startOfLine = true;
   public String transform(String c) {
-    if (c.equals("\r")) return "";
-    if (!startOfLine && !c.equals("\n")) return c;
-    String res = "";
+    String res = c.equals("\r") ? "" : c;
 
     if (startOfLine) {
+      res = (lineCounter++) + ". " + res;
       startOfLine = false;
-      res = (lineCounter++) + ". " + c;
-      if (c.equals("\n")) return res + (lineCounter++) + ". ";
     }
 
-    if (c.equals("\n")) {
-      res += c + (lineCounter++) + ". ";
-    }
-
+    if (c.equals("\n")) res += (lineCounter++) + ". ";
     return res;
   }
 }
