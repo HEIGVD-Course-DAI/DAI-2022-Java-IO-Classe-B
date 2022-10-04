@@ -5,7 +5,10 @@ import ch.heigvd.api.labio.quotes.QuoteClient;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -138,22 +141,13 @@ public class Application {
      *   Write the file with encoding UTF-8.
      */
 
-    // Fix  test :
-    //FileOutPutStream fos = new FileOutPutStream(file);
-    int b;
-
-    try (OutputStreamWriter writer =
-                 new OutputStreamWriter(new FileOutputStream(file),
-                         StandardCharsets.UTF_8)) {
-      while ( (b = fis.read()) != -1 ) {
-        file.write(b);
-      }
-      fos.close();
-
-    }
+      // Fix :
+      OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
+      writer.write(quote.getQuote());
+      writer.close();
 
   }
-  
+
   public void processQuoteFiles() throws IOException {
     FileExplorer explorer = new FileExplorer();
     explorer.explore(new File(WORKSPACE_DIRECTORY));
