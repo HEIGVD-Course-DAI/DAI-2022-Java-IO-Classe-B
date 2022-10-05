@@ -23,7 +23,7 @@ public class LineNumberingCharTransformer {
   private boolean isFirstCharOfLine = true;
   private int idLine = 1;
 
-  private static final Logger LOG = Logger.getLogger(LineNumberingCharTransformer.class.getName());
+  private static final Logger LOG = Logger.getLogger(UpperCaseCharTransformer.class.getName());
 
   public String transform(String c) {
     if (c.equals(carriageReturn)) {
