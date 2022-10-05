@@ -5,8 +5,7 @@ import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
 import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,6 +39,8 @@ public class FileTransformer {
     NoOpCharTransformer nopTrans = new NoOpCharTransformer();
     UpperCaseCharTransformer uppTrans = new UpperCaseCharTransformer();
 
+
+
     /* TODO: implement the following logic here:
      *  - open the inputFile and an outputFile
      *    Use UTF-8 encoding for both.
@@ -50,19 +51,18 @@ public class FileTransformer {
      */
     try {
       //Create output file
+      //TODO: IMPROVE ME
       File outFile = new File(inputFile.getPath() + ".out");
-
-      //Clear file content if already exists
-      if(!outFile.createNewFile()) {
-        PrintWriter writer = new PrintWriter(outFile);
-        writer.print("");
-        writer.close();
+      FileReader fr = new FileReader(inputFile);
+      FileWriter fw = new FileWriter(outFile);
+      int c = fr.read();
+      while(c != -1) {
+        char ch = (char) c;
+        fw.write(linTrans.transform(uppTrans.transform(String.valueOf(ch))));
+        c = fr.read();
       }
-
-
-
-
-
+      fw.flush();
+      fw.close();
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }
