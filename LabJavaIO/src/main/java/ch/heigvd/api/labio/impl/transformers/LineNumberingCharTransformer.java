@@ -18,7 +18,6 @@ import java.util.logging.Logger;
  * @author Olivier Liechti, Juergen Ehrensberger
  */
 public class LineNumberingCharTransformer {
-  private static final Logger LOG = Logger.getLogger(LineNumberingCharTransformer.class.getName());
   private static final String carriageReturn = "\r";
   private static final String endLine = "\n";
   private boolean isFirstCharOfLine = true;
