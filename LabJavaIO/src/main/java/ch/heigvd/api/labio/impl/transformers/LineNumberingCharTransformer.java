@@ -17,9 +17,11 @@ import java.util.logging.Logger;
  * @author Olivier Liechti, Juergen Ehrensberger
  */
 public class LineNumberingCharTransformer {
+
   private static final Logger LOG = Logger.getLogger(UpperCaseCharTransformer.class.getName());
   private int lineCounter = 0;
   private boolean firstLine = true;
+
 
   public String transform(String c) {
     String tc = c.replace("\r", "");
