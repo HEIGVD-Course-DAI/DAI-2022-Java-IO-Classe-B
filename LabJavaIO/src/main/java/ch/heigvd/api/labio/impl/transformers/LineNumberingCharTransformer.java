@@ -1,6 +1,5 @@
 package ch.heigvd.api.labio.impl.transformers;
 
-import java.util.Objects;
 import java.util.logging.Logger;
 
 /**
