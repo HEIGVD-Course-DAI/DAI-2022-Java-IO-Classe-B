@@ -29,8 +29,9 @@ public class FileExplorer {
             if (files.length != 0) {
                 Arrays.sort(files);
                 for (File file : files) {
-                    if (file.isFile())
+                    if (file.isFile()) {
                         transformer.transform(file);
+                    }
                     else
                         explore(file);
                 }
