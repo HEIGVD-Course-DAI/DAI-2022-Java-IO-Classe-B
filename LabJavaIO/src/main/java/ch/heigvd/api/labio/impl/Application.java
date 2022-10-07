@@ -4,8 +4,7 @@ import ch.heigvd.api.labio.quotes.Quote;
 import ch.heigvd.api.labio.quotes.QuoteClient;
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -134,6 +133,19 @@ public class Application {
      *   using an output stream.
      *   Write the file with encoding UTF-8.
      */
+    FileReader fr = new FileReader(quote.getQuote());
+    BufferedReader fastr = new BufferedReader(fr);
+    FileWriter fw = new FileWriter(file);
+    BufferedWriter fastw = new BufferedWriter(fw);
+    int c = fastr.read();
+    while (c != -1){
+      fastw.write(c);
+      c = fastr.read();
+    }
+
+    fastw.flush();
+    fastw.close();
+    fastr.close();
 
   }
   
