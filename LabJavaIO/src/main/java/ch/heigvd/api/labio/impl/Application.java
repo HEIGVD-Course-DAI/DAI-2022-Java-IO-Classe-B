@@ -5,6 +5,7 @@ import ch.heigvd.api.labio.quotes.QuoteClient;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,6 +78,7 @@ public class Application {
        *  Add the missing line which stores the content of the quote in a file with
        *  the name "quote-i.utf8" where 'i' is the number of the file.
        */
+      storeQuote(quote, "quote-" + i + ".utf8");
 
       LOG.info("Received a new joke with " + quote.getTags().size() + " tags.");
       for (String tag : quote.getTags()) {
@@ -133,20 +135,12 @@ public class Application {
      *   using an output stream.
      *   Write the file with encoding UTF-8.
      */
-    FileReader fr = new FileReader(quote.getQuote());
-    BufferedReader fastr = new BufferedReader(fr);
+
     FileWriter fw = new FileWriter(file);
-    BufferedWriter fastw = new BufferedWriter(fw);
-    int c = fastr.read();
-    while (c != -1){
-      fastw.write(c);
-      c = fastr.read();
-    }
+    fw.write(quote.getQuote());
 
-    fastw.flush();
-    fastw.close();
-    fastr.close();
-
+    fw.flush();
+    fw.close();
   }
   
   public void processQuoteFiles() throws IOException {
