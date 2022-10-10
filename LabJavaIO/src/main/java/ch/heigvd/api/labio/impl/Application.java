@@ -82,7 +82,7 @@ public class Application {
        *  Add the missing line which stores the content of the quote in a file with
        *  the name "quote-i.utf8" where 'i' is the number of the file.
        */
-      // Fix  test:
+
       storeQuote(quote, "quote-" + i + ".utf8");
 
       LOG.info("Received a new joke with " + quote.getTags().size() + " tags.");
@@ -141,7 +141,6 @@ public class Application {
      *   Write the file with encoding UTF-8.
      */
 
-      // Fix :
       OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
       writer.write(quote.getQuote());
       writer.close();
