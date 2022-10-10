@@ -52,7 +52,7 @@ public class FileTransformer {
          ) {
       int nextCharValue = 0;
       while( (nextCharValue = isr.read()) != -1 ) {
-        osw.write(transformer0.transform(transformer1.transform(String.valueOf(nextCharValue))));
+        osw.write(transformer1.transform(transformer0.transform("" + (char)nextCharValue)));
       }
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
