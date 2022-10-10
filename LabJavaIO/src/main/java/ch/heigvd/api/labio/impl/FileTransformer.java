@@ -1,7 +1,6 @@
 package ch.heigvd.api.labio.impl;
 
 import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
-import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
 import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
 
 import java.io.*;
