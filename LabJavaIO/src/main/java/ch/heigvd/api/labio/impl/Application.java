@@ -5,6 +5,7 @@ import ch.heigvd.api.labio.quotes.QuoteClient;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -119,10 +120,21 @@ public class Application {
     // Create the output file under the new directory. Use the filename received as parameter.
     File file = new File(directory, filename);
 
-    FileWriter fw = new FileWriter(file);
-    fw.write(quote.getQuote());
-    fw.flush();
-    fw.close();
+    FileWriter fw = null;
+
+    try {
+      fw = new FileWriter(file, StandardCharsets.UTF_8);
+      fw.write(quote.getQuote());
+    }
+    catch(IOException ex){
+      System.err.println("Caught IOException: " + ex.toString());
+    }
+    finally{
+      if(fw != null) {
+        fw.flush();
+        fw.close();
+      }
+    }
   }
   
   public void processQuoteFiles() throws IOException {

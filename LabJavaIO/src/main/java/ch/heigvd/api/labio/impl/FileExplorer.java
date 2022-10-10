@@ -1,6 +1,7 @@
 package ch.heigvd.api.labio.impl;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * The FileExplorer performs an exploration of the file system. It
@@ -12,7 +13,7 @@ import java.io.File;
  */
 public class FileExplorer {
 
-    public void explore(File rootDirectory) {
+    public void explore(File rootDirectory) throws IOException {
         FileTransformer transformer = new FileTransformer();
 
         //Solution found here : https://stackoverflow.com/questions/2056221/recursively-list-files-in-java
@@ -27,6 +28,5 @@ public class FileExplorer {
                 transformer.transform(f);
         }
 
-        //throw new UnsupportedOperationException("The student has not implemented this method yet.");
     }
 }
