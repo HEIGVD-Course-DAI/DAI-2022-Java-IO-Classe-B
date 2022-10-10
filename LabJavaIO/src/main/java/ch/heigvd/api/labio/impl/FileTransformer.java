@@ -1,10 +1,9 @@
 package ch.heigvd.api.labio.impl;
 
-import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +34,8 @@ public class FileTransformer {
          */
         // ... transformer = ...
 
-        NoOpCharTransformer transformer = new NoOpCharTransformer();
+        UpperCaseCharTransformer upcct = new UpperCaseCharTransformer();
+        LineNumberingCharTransformer lnct = new LineNumberingCharTransformer();
 
         /* TODO: implement the following logic here:
          *  - open the inputFile and an outputFile
@@ -48,12 +48,47 @@ public class FileTransformer {
         //TODO verify behavior !!
         if (inputFile.exists() && inputFile.isFile()) {
             try {
-                FileInputStream fis = new FileInputStream(inputFile);
+                final String CHARSET = "UTF-8";
+
+                InputStreamReader isr = new InputStreamReader(new FileInputStream(inputFile), CHARSET);
+
+
                 File newFile = new File(inputFile.getParent(), inputFile.getName() + ".out");
-                FileOutputStream fos = new FileOutputStream(newFile);
-                fis.readAllBytes();
+
+                System.out.println("Written file : " + newFile.getName());
+
+                OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(newFile), CHARSET);
+                int b = isr.read();
+                if (b != -1) {
+                    String cUpper = upcct.transform(String.valueOf((char) (b)));
+                    String cLine = lnct.transform(cUpper);
+                    osw.write(cLine);
+                }
+                while ((b = isr.read()) != -1) {
+
+                    if ((char) (b) == '\n') {
+                        //todo add number at beginning
+                        String cLine = lnct.transform(String.valueOf((char) (b)));
+                        System.out.println("Line number --> VALUE : " + cLine + " " + (char) (b));
+                        osw.write(cLine);
+
+
+                    } else if ((char) (b) == '\r') {
+
+                    } else {
+                        String cUpper = upcct.transform(String.valueOf((char) (b)));
+                        System.out.println("Uppercase --> VALUE : " + cUpper + " " + (char) (b));
+                        osw.write(cUpper);
+                    }
+
+
+                }
+                isr.close();
+                osw.close();
             } catch (Exception ex) {
                 LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
+            } finally {
+
             }
         }
     }
