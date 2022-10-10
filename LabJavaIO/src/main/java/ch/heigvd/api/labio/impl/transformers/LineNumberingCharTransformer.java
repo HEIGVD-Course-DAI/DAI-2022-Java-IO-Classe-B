@@ -43,6 +43,5 @@ public class LineNumberingCharTransformer {
       }
       return str;
    }
-  private static final Logger LOG = Logger.getLogger(LineNumberingCharTransformer.class.getName());
 }
 
