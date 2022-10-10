@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,22 +73,10 @@ public class Application {
     QuoteClient client = new QuoteClient();
     for (int i = 0; i < numberOfQuotes; i++) {
       Quote quote = client.fetchQuote();
-      /* TODO: There is a missing piece here!
-       *  As you can see, this method handles the first part of the lab. It uses the web service
-       *  client to fetch quotes. We have removed a single line from this method. It is a call to
-       *  one method provided by this class, which is responsible for storing the content of the
-       *  quote in a text file (and for generating the directories based on the tags).
-       *  Add the missing line which stores the content of the quote in a file with
-       *  the name "quote-i.utf8" where 'i' is the number of the file.
-       *
-       * Update : Elliot solved it for now
-       */
       storeQuote(quote, String.format("quote-%d.utf8", i));
-
       LOG.info("Received a new joke with " + quote.getTags().size() + " tags.");
       for (String tag : quote.getTags()) {
         LOG.info("> " + tag);
-
       }
     }
   }
@@ -115,9 +104,8 @@ public class Application {
    * 
    * @param quote the quote object, with tags and text
    * @param filename the name of the file to create and where to store the quote text
-   * @throws IOException 
    */
-  void storeQuote(Quote quote, String filename) throws IOException {
+  void storeQuote(Quote quote, String filename) {
     // Create the directory path by concatenating the tags from quote, with a slash between the tags
     List<String> tags = quote.getTags();
     String path = WORKSPACE_DIRECTORY;
@@ -135,20 +123,14 @@ public class Application {
 
     /* Now write the quote into the file using Output streams.
      * The content of the file is in quote.getQuote().
-     * TODO: There is something missing here: you have to implement writing the file
-     *   using an output stream.
-     *   Write the file with encoding UTF-8.
-     *
-     * UPDATE : Elliot added the baseline -> remaining stuff = manage UTF-8 and add buffer or writing by blocks
      */
     String filepath = String.format("%s\\%s", path, filename);
-    FileWriter fw = new FileWriter(filepath);
-    String content = quote.getContent();
-    for(int i = 0; i < content.length(); ++i) {
-      fw.write(content.charAt(i));
+    try (FileWriter fw = new FileWriter(filepath, StandardCharsets.UTF_8)) {
+      fw.write(quote.getContent());
+      fw.flush();
+    } catch (Exception e) {
+      LOG.log(Level.SEVERE, "Error while writing the received quote", e);
     }
-    fw.flush();
-    fw.close();
   }
   
   public void processQuoteFiles() throws IOException {

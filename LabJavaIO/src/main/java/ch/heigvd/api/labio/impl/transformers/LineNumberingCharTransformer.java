@@ -23,19 +23,19 @@ public class LineNumberingCharTransformer {
   public String transform(String c) {
     if (c == null)
       throw new IllegalArgumentException("Must specify a string");
-    if(c.length() == 0 || c.equals("\r")) { return ""; }
+
+    if(c.length() == 0 || c.equals("\r"))
+      return "";
 
     if(lineIndex == 1) {
-      // 1ere ligne
-      if(c.equals("\n")) {
-        // cas spécial : 1ere ligne commence par un retour-ligne
+      // Special case when the
+      if(c.equals("\n"))
         return String.format("%d. %s%d. ",lineIndex++, c, lineIndex++);
-      }
 
       return String.format("%d. %s", lineIndex++, c);
+    }
 
-    } else if(c.equals("\n")) {
-      // retours-ligne
+    if(c.equals("\n")) {
       return String.format("%s%d. ", c, lineIndex++);
     }
     return c;
