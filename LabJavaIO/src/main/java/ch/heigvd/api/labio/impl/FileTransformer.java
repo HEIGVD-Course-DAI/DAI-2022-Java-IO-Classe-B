@@ -1,8 +1,14 @@
 package ch.heigvd.api.labio.impl;
 
+import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
+
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.nio.charset.StandardCharsets;
 
 /**
  * This class transforms files. The transform method receives an inputFile.
@@ -31,6 +37,11 @@ public class FileTransformer {
      */
     // ... transformer = ...
 
+    UpperCaseCharTransformer upperCaseCharTransformer = new UpperCaseCharTransformer();
+
+    LineNumberingCharTransformer lineNumberingCharTransformer = new LineNumberingCharTransformer();
+
+
     /* TODO: implement the following logic here:
      *  - open the inputFile and an outputFile
      *    Use UTF-8 encoding for both.
@@ -40,7 +51,35 @@ public class FileTransformer {
      *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
      */
     try {
+      if (inputFile.exists() && inputFile.isFile()) {
 
+        FileReader fr = new FileReader(inputFile, StandardCharsets.UTF_8);
+
+        String contents = new String(java.nio.file.Files.readAllBytes(inputFile.toPath()));
+
+        int c = fr.read();
+
+        char[] chars = new char[c];
+
+        fr.read(chars);
+
+        fr.close();
+
+        String s = new String(chars);
+
+        s = upperCaseCharTransformer.transform(s);
+
+        s = lineNumberingCharTransformer.transform(s);
+
+        FileWriter fw = new FileWriter(inputFile.getName() + ".out", StandardCharsets.UTF_8);
+
+        fw.write(s);
+
+        fw.close();
+
+      } else {
+        LOG.log(Level.SEVERE, "File {0} does not exist", inputFile.getAbsolutePath());
+      }
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }
