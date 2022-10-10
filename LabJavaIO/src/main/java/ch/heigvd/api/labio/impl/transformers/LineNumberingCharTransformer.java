@@ -24,6 +24,8 @@ public class LineNumberingCharTransformer {
         /* TODO: implement the transformation here.
          */
 
+        // If we begin at the first char we insert the "1. ", if a "\r" is met we delete it and finally, insert the
+        // correct numbering after all "\n"
         if (line == 0) {
             line++;
             c = "1. " + c;
@@ -31,7 +33,6 @@ public class LineNumberingCharTransformer {
         if (c.equals("\r".toString())) {
             return "".toString();
         }
-
         if (c.substring(c.length() - 1).equals("\n".toString())) {
             c = c + String.format("%d. ", ++line);
         }

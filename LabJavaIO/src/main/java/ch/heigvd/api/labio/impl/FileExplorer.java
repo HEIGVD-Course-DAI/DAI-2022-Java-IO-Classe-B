@@ -24,7 +24,11 @@ public class FileExplorer {
          *  For each file, call the FileTransformer (see above).
          *  For each directory, recursively explore the directory.
          */
+
+        // Transform the file with the transformers specified in the transfom method
         if (rootDirectory.isFile()) new FileTransformer().transform(rootDirectory);
+
+        // Explore recursively the root directory
         else if(rootDirectory.isDirectory()){
             String[] list_of_file = rootDirectory.list();
             if (list_of_file == null) return;

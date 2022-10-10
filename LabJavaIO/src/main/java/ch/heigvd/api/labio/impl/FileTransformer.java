@@ -51,11 +51,14 @@ public class FileTransformer {
 
             Reader inStream = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8);
             Writer outStream = new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8);
+
             UpperCaseCharTransformer upop = new UpperCaseCharTransformer();
             LineNumberingCharTransformer liop = new LineNumberingCharTransformer();
+
             while(inStream.ready()){
                 outStream.write(liop.transform(upop.transform(Character.toString(inStream.read()))));
             }
+
             outStream.flush();
             inStream.close();
             outStream.close();
