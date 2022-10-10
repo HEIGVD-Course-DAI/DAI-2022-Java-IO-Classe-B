@@ -69,6 +69,7 @@ public class ApplicationTest {
             String filename = file.getName();
             Pattern pattern = Pattern.compile("quote-\\d*.utf8");
             Matcher matcher = pattern.matcher(filename);
+            System.out.println("DEBUG filename : " + filename + " (looked for : quote-\\d*.utf");
             assertTrue(matcher.matches());
         }
     }
