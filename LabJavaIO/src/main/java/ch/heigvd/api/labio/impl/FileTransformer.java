@@ -5,6 +5,7 @@ import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
 import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,20 +36,19 @@ public class FileTransformer {
             String inputFileContent = Files.readString(inputFile.toPath());
 
             // Buffered writing output file and applying 3 transformations
-            BufferedWriter writer = new BufferedWriter(new FileWriter(inputFile.getAbsoluteFile() + ".out"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(inputFile.getAbsoluteFile() + ".out", StandardCharsets.UTF_8));
 
             NoOpCharTransformer noOpCharTransformer = new NoOpCharTransformer();
             LineNumberingCharTransformer lineNumberingCharTransformer = new LineNumberingCharTransformer();
             UpperCaseCharTransformer upperCaseCharTransformer = new UpperCaseCharTransformer();
 
 
-            StringBuilder output = new StringBuilder();
             for (int i = 0; i < inputFileContent.length(); i++) {
                 String s = Character.toString(inputFileContent.charAt(i));
                 s = noOpCharTransformer.transform(s);
                 s = upperCaseCharTransformer.transform(s);
                 s = lineNumberingCharTransformer.transform(s);
-               writer.write(s);
+                writer.write(s);
             }
 
             writer.flush();
