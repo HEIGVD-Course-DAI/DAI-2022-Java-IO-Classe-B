@@ -24,7 +24,8 @@ public class LineNumberingCharTransformer {
 
 
   public String transform(String c) {
-    String tc = c.replace("\r", "");
+    c = c.replace("\r", "");
+    String tc = c;
 
     if (firstLine) {
       tc = (++lineCounter) + ". " + tc;
