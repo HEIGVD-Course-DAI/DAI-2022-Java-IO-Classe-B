@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class FileExplorer {
 
     public void explore(File rootDirectory) {
-        FileTransformer transformer = new FileTransformer();
+
 
         /* TODO: implement the logic to explore the rootDirectory.
          *  Use the Java JDK documentation to see:
@@ -24,13 +24,13 @@ public class FileExplorer {
          *  For each file, call the FileTransformer (see above).
          *  For each directory, recursively explore the directory.
          */
-        if (rootDirectory.isFile()) transformer.transform(rootDirectory);
-        else {
+        if (rootDirectory.isFile()) new FileTransformer().transform(rootDirectory);
+        else if(rootDirectory.isDirectory()){
             String[] list_of_file = rootDirectory.list();
             if (list_of_file == null) return;
             Arrays.sort(list_of_file);
             for (String file : list_of_file) {
-                File current = new File(rootDirectory.getParent() + "\\" + file);
+                File current = new File(rootDirectory.getPath() + "\\" + file);
                 explore(current);
             }
         }
