@@ -27,23 +27,27 @@ public class LineNumberingCharTransformer {
   }
 
   public String transform(String c) {
-    /* TODO: implement the transformation here.
+    /* DONE: implement the transformation here.
      */
     //throw new UnsupportedOperationException("The student has not implemented this method yet.");
+
+    String res = "";
+
     if(noLigne == 0){
       ++noLigne;
-      return "1 . " + c;
+      res += "1. ";
     }
-    if(c.equals('\r')) {
-      return "";
+
+    if(c.equals("\r")) {
+      c = "";
     }
-    if(c.equals('\n')){
+
+    if(c.equals("\n")){
+      c = "";
       ++noLigne;
-      return "\n" + noLigne + " . "; // TODO: detect end of file ... or new file ...
+      res += "\n" + noLigne + ". ";
     }
-//    if(c.equals(0)){ // end of file
-//      noLigne = 0;
-//    }
-    return c;
+
+    return res + c;
   }
 }
