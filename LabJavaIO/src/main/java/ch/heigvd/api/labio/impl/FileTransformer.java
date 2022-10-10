@@ -54,6 +54,8 @@ public class FileTransformer {
       while( (nextCharValue = isr.read()) != -1 ) {
         osw.write(transformer1.transform(transformer0.transform("" + (char)nextCharValue)));
       }
+      isr.close();
+      osw.close();
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }

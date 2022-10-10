@@ -144,6 +144,7 @@ public class Application {
     osw.write(quote.getQuote());
 
     fos.flush();
+    osw.close();
   }
   
   public void processQuoteFiles() throws IOException {
