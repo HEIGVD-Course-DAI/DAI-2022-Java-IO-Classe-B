@@ -1,5 +1,6 @@
 package ch.heigvd.api.labio.impl.transformers;
 
+import javax.sound.sampled.Line;
 import java.util.logging.Logger;
 
 /**
@@ -19,14 +20,30 @@ import java.util.logging.Logger;
 public class LineNumberingCharTransformer {
   private static final Logger LOG = Logger.getLogger(UpperCaseCharTransformer.class.getName());
 
+  private int noLigne = 0;
+
+  public LineNumberingCharTransformer(){
+    noLigne= 0;
+  }
+
   public String transform(String c) {
     /* TODO: implement the transformation here.
      */
     //throw new UnsupportedOperationException("The student has not implemented this method yet.");
-    if(c.equals('\r'))
+    if(noLigne == 0){
+      ++noLigne;
+      return "1 . " + c;
+    }
+    if(c.equals('\r')) {
       return "";
-    if(c.equals('\n'))
-      return "\ni . "; // TODO: put number
+    }
+    if(c.equals('\n')){
+      ++noLigne;
+      return "\n" + noLigne + " . "; // TODO: detect end of file ... or new file ...
+    }
+//    if(c.equals(0)){ // end of file
+//      noLigne = 0;
+//    }
     return c;
   }
 }
