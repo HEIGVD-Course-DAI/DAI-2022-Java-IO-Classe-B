@@ -32,7 +32,8 @@ public class FileTransformer {
      *  Later, replace it by a combination of the UpperCaseCharTransformer
      *  and the LineNumberCharTransformer.
      */
-    var transformer = new LineNumberingCharTransformer();
+    var lineNumberingCharTrans = new LineNumberingCharTransformer();
+    var upperCaseCharTrans = new UpperCaseCharTransformer();
 
     /* TODO: implement the following logic here:
      *  - open the inputFile and an outputFile
@@ -48,9 +49,13 @@ public class FileTransformer {
       int readedChar;
 
       while ((readedChar = inputStream.read()) != -1) {
-        outputStream.write(transformer.transform(String.valueOf(readedChar)));
+        String c = upperCaseCharTrans.transform(String.valueOf((char)readedChar));
+        c = lineNumberingCharTrans.transform(c);
+        outputStream.append(c);
       }
 
+      inputStream.close();
+      outputStream.close();
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }

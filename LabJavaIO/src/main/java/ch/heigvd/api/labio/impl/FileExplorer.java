@@ -24,16 +24,26 @@ public class FileExplorer {
          *  For each file, call the FileTransformer (see above).
          *  For each directory, recursively explore the directory.
          */
+        if (!rootDirectory.exists()) return;
         String[] contents = rootDirectory.list();
         System.out.println("List of files and directories in the specified directory:");
+        assert contents != null;
         for (String content : contents) {
             System.out.println(content);
         }
         Arrays.sort(contents);
 
         File[] listOfFiles = rootDirectory.listFiles();
+        assert listOfFiles != null;
         for(File file : listOfFiles) {
-            if(content.)
-        //}
+            if(file.isFile()) {
+                transformer.transform(file);
+            }
+            if(file.isDirectory()) {
+                explore(file);
+            }
+
+        }
+
     }
 }
