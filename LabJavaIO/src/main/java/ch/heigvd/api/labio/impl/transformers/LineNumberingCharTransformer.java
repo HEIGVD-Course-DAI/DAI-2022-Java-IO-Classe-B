@@ -22,7 +22,7 @@ public class LineNumberingCharTransformer {
   private int lineIndex = 1;
   public String transform(String c) {
     /* TODO: implement the transformation here.
-     * Update : Elliot added the "version moche mais qui marche" on the TODO
+     * Update : Elliot added the "version moche mais qui marche"
      */
     if(c.length() == 0 || c.equals("\r")) { return ""; }
 

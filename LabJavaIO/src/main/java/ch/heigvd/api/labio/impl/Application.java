@@ -80,7 +80,7 @@ public class Application {
        *  Add the missing line which stores the content of the quote in a file with
        *  the name "quote-i.utf8" where 'i' is the number of the file.
        *
-       * UPDATE : Elliot resolved the TODO for now
+       * Update : Elliot solved it for now
        */
       storeQuote(quote, String.format("quote-%d.utf8", i));
 
@@ -139,7 +139,7 @@ public class Application {
      *   using an output stream.
      *   Write the file with encoding UTF-8.
      *
-     * UPDATE : Elliot added the baseline -> remaining TODO = manage UTF-8 and add buffer or writing by blocks
+     * UPDATE : Elliot added the baseline -> remaining stuff = manage UTF-8 and add buffer or writing by blocks
      */
     String filepath = String.format("%s\\%s", path, filename);
     FileWriter fw = new FileWriter(filepath);

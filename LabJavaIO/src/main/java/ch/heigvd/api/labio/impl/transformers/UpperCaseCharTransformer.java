@@ -13,7 +13,7 @@ public class UpperCaseCharTransformer {
 
   public String transform(String c) {
     /* TODO: implement the transformation here.
-     * Update : Elliot resolved the TODO for now
+     * Update : Elliot solved it for now
      */
     return c.toUpperCase();
     // throw new UnsupportedOperationException("The student has not implemented this method yet.");

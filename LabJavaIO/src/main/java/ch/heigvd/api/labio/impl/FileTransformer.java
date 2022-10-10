@@ -35,6 +35,8 @@ public class FileTransformer {
     /* TODO: first start with the NoOpCharTransformer which does nothing.
      *  Later, replace it by a combination of the UpperCaseCharTransformer
      *  and the LineNumberCharTransformer.
+     *
+     * Update : Elliot solved it for now but could be improved
      */
     // ... transformer = ...
     NoOpCharTransformer           noOp    = new NoOpCharTransformer();
@@ -48,6 +50,8 @@ public class FileTransformer {
      *  - Copy all characters from the input file to the output file.
      *  - For each character, apply a transformation: start with NoOpCharTransformer,
      *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
+     *
+     *  Edit : Elliot solved it for now but could be improved
      */
     try {
       FileReader fis = new FileReader(inputFile, StandardCharsets.UTF_8);
