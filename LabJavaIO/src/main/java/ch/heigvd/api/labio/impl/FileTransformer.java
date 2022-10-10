@@ -1,8 +1,16 @@
 package ch.heigvd.api.labio.impl;
 
+import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
+
+import javax.sound.sampled.Line;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import java.nio.charset.StandardCharsets;
+import java.io.*;
 
 /**
  * This class transforms files. The transform method receives an inputFile.
@@ -24,25 +32,42 @@ public class FileTransformer {
      * Before writing each character to the output file, the transformer calls
      * a character transformer to transform the character before writing it to the output.
      */
-
-    /* TODO: first start with the NoOpCharTransformer which does nothing.
-     *  Later, replace it by a combination of the UpperCaseCharTransformer
-     *  and the LineNumberCharTransformer.
-     */
-    // ... transformer = ...
-
-    /* TODO: implement the following logic here:
-     *  - open the inputFile and an outputFile
-     *    Use UTF-8 encoding for both.
-     *    Filename of the output file: <inputFile-Name>.out (that is add ".out" at the end)
-     *  - Copy all characters from the input file to the output file.
-     *  - For each character, apply a transformation: start with NoOpCharTransformer,
-     *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
-     */
+    InputStreamReader reader = null;
+    OutputStreamWriter writer = null;
     try {
 
+      File outputFile = new File(inputFile + ".out");
+
+      FileInputStream fis = new FileInputStream(inputFile);
+      FileOutputStream fos = new FileOutputStream(outputFile);
+
+       reader = new InputStreamReader(fis, StandardCharsets.UTF_8);
+       writer = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+
+      LineNumberingCharTransformer tr1 = new LineNumberingCharTransformer();
+      UpperCaseCharTransformer tr2 = new UpperCaseCharTransformer();
+
+      int c;
+      while((c = reader.read()) != -1){
+        String str = Character.toString(c);
+        str = tr1.transform(str);
+        str = tr2.transform(str);
+        writer.write(str);
+      }
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
+    } finally {
+      try {
+        writer.close();
+      } catch (Exception ex) {
+        LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
+      }
+      try {
+        reader.close();
+      } catch (Exception ex){
+        LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
+      }
+
     }
   }
 }
