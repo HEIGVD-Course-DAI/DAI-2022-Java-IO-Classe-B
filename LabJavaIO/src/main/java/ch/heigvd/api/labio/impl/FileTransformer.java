@@ -1,6 +1,10 @@
 package ch.heigvd.api.labio.impl;
 
-import java.io.File;
+import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
+
+import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,6 +27,8 @@ public class FileTransformer {
      * Both files must be opened (read or write) with encoding "UTF-8".
      * Before writing each character to the output file, the transformer calls
      * a character transformer to transform the character before writing it to the output.
+     *
+     * Elliot is trying to fix this
      */
 
     /* TODO: first start with the NoOpCharTransformer which does nothing.
@@ -30,6 +36,9 @@ public class FileTransformer {
      *  and the LineNumberCharTransformer.
      */
     // ... transformer = ...
+    NoOpCharTransformer           noOp    = new NoOpCharTransformer();
+    UpperCaseCharTransformer      upperOp = new UpperCaseCharTransformer();
+    LineNumberingCharTransformer  lineOp  = new LineNumberingCharTransformer();
 
     /* TODO: implement the following logic here:
      *  - open the inputFile and an outputFile
@@ -40,7 +49,17 @@ public class FileTransformer {
      *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
      */
     try {
-
+      FileReader fis = new FileReader(inputFile);
+      FileWriter fw = new FileWriter(inputFile + ".out");
+      int charCode = fis.read();
+      while((charCode = fis.read()) != -1) {
+        String content = String.valueOf((char)charCode);
+        content = noOp.transform(content);
+        content = upperOp.transform(content);
+        content = lineOp.transform(content);
+        fw.write(content);
+      }
+      fis.close();
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }
