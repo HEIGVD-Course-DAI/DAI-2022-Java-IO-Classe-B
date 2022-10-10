@@ -24,6 +24,7 @@ public class LineNumberingCharTransformer {
    public String transform(String c) {
 
       /* TODO: implement the transformation here.
+
        */
       String str = "";
       if (lineNumber == 1)
