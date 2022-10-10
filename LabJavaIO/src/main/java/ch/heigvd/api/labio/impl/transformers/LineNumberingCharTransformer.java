@@ -21,9 +21,8 @@ public class LineNumberingCharTransformer {
 
   private int lineIndex = 1;
   public String transform(String c) {
-    /* TODO: implement the transformation here.
-     * Update : Elliot added the "version moche mais qui marche"
-     */
+    if (c == null)
+      throw new IllegalArgumentException("Must specify a string");
     if(c.length() == 0 || c.equals("\r")) { return ""; }
 
     if(lineIndex == 1) {
@@ -31,15 +30,14 @@ public class LineNumberingCharTransformer {
       if(c.equals("\n")) {
         // cas spécial : 1ere ligne commence par un retour-ligne
         return String.format("%d. %s%d. ",lineIndex++, c, lineIndex++);
-      } else {
-        return String.format("%d. %s", lineIndex++, c);
       }
+
+      return String.format("%d. %s", lineIndex++, c);
+
     } else if(c.equals("\n")) {
       // retours-ligne
       return String.format("%s%d. ", c, lineIndex++);
-    } else {
-      return c;
     }
-    // throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    return c;
   }
 }

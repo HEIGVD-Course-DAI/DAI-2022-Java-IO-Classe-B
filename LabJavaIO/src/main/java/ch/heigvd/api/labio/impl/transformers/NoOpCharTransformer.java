@@ -12,10 +12,8 @@ public class NoOpCharTransformer {
   private static final Logger LOG = Logger.getLogger(NoOpCharTransformer.class.getName());
 
   public String transform(String c) {
-    /* TODO: implement the transformation here.
-    * Update : Elliot solved it for now
-     */
+    if (c == null)
+      throw new IllegalArgumentException("Must specify a string");
     return c;
-    // throw new UnsupportedOperationException("The student has not implemented this method yet.");
   }
 }

@@ -12,6 +12,8 @@ public class UpperCaseCharTransformer {
   private static final Logger LOG = Logger.getLogger(UpperCaseCharTransformer.class.getName());
 
   public String transform(String c) {
+    if (c == null)
+      throw new IllegalArgumentException("Must specify a string");
     return c.toUpperCase();
   }
 }
