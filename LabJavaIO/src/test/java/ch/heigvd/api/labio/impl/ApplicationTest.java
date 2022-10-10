@@ -65,12 +65,18 @@ public class ApplicationTest {
     public void theApplicationShouldUseTheCorrectSyntaxToNameTheQuoteFiles() {
         String[] extensions = {"utf8"};
         Collection<File> files = FileUtils.listFiles(new File(Application.WORKSPACE_DIRECTORY), extensions, true);
-        System.out.println("======= DEBUG workspace dir = " + Application.WORKSPACE_DIRECTORY);
         for (File file : files) {
             String filename = file.getName();
+            // -----
+            // for OS compatibility
+            // (tests in PR were failing because it had a '\' at beginning of file name
+            // I ran the tests on Windows and the '\' was absent so the tests were green on my side
+            if(filename.charAt(0) == '\\') {
+                filename = filename.substring(1);
+            }
+            // -----
             Pattern pattern = Pattern.compile("quote-\\d*.utf8");
             Matcher matcher = pattern.matcher(filename);
-            System.out.println("======= DEBUG filename : " + filename + " (looked for : quote-\\d*.utf");
             assertTrue(matcher.matches());
         }
     }
