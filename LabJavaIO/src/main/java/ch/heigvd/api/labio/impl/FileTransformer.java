@@ -1,6 +1,15 @@
 package ch.heigvd.api.labio.impl;
 
+import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.CombinedTransformer;
+
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileOutputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,22 +34,34 @@ public class FileTransformer {
      * a character transformer to transform the character before writing it to the output.
      */
 
-    /* TODO: first start with the NoOpCharTransformer which does nothing.
-     *  Later, replace it by a combination of the UpperCaseCharTransformer
-     *  and the LineNumberCharTransformer.
-     */
-    // ... transformer = ...
+    //NoOpCharTransformer transformer = new NoOpCharTransformer();
+    //UpperCaseCharTransformer transformer1 = new UpperCaseCharTransformer();
+    //LineNumberingCharTransformer transformer2 = new LineNumberingCharTransformer();
+    CombinedTransformer transformer = new CombinedTransformer();
 
-    /* TODO: implement the following logic here:
-     *  - open the inputFile and an outputFile
-     *    Use UTF-8 encoding for both.
-     *    Filename of the output file: <inputFile-Name>.out (that is add ".out" at the end)
-     *  - Copy all characters from the input file to the output file.
-     *  - For each character, apply a transformation: start with NoOpCharTransformer,
-     *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
-     */
     try {
+      java.nio.charset.Charset encoding = java.nio.charset.StandardCharsets.UTF_8;
+      FileReader fileReader = new FileReader(inputFile, encoding);
+      String contentTransformed = "";
 
+      /* RECOVERING CONTENT + APPLYING TRANSFORMATIONS */
+      /* Work with both approach */
+      int c;
+      while ((c = fileReader.read()) != -1)
+        contentTransformed += transformer.transform(Character.toString(c));
+        //contentTransformed += transformer1.transform(
+        //        transformer2.transform(
+        //                Character.toString(c)));
+
+      /* WRITING CONTENT TO WRITER */
+      FileOutputStream fos = new FileOutputStream(inputFile + ".out");
+      fos.write(contentTransformed.getBytes(encoding));
+
+      /* CLOSING FILES */
+      fileReader.close();
+      /* /!\ For WRITING file, don't forget to flush them before closing /!\ */
+      fos.flush();
+      fos.close();
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }

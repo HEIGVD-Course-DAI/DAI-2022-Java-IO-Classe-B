@@ -1,0 +1,10 @@
+// Concerning java.io.File
+https://docs.oracle.com/javase/7/docs/api/java/io/File.html
+
+// Get extension of a file
+https://frontbackend.com/java/how-to-get-extension-of-a-file-in-java
+
+// Manners to convert a char to String
+https://www.digitalocean.com/community/tutorials/convert-char-to-string-java
+
+
