@@ -1,6 +1,10 @@
 package ch.heigvd.api.labio.impl;
 
-import java.io.File;
+import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,20 +33,38 @@ public class FileTransformer {
      *  Later, replace it by a combination of the UpperCaseCharTransformer
      *  and the LineNumberCharTransformer.
      */
-    // ... transformer = ...
 
-    /* TODO: implement the following logic here:
-     *  - open the inputFile and an outputFile
-     *    Use UTF-8 encoding for both.
-     *    Filename of the output file: <inputFile-Name>.out (that is add ".out" at the end)
-     *  - Copy all characters from the input file to the output file.
-     *  - For each character, apply a transformation: start with NoOpCharTransformer,
-     *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
-     */
+    UpperCaseCharTransformer upperTransformer = new UpperCaseCharTransformer();
+    LineNumberingCharTransformer lineNumberTransformer = new LineNumberingCharTransformer();
+
+    InputStreamReader  isr = null;
+    OutputStreamWriter osw = null;
+
     try {
+      isr = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8);
+
+      File outputFile = new File(inputFile.getParent(), inputFile.getName() + ".out");
+      osw = new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8);
+
+      int readByte; // Current byte read by the streamReader
+      while ((readByte = isr.read()) != -1) {
+        String s = Character.toString((char) readByte);
+        osw.write(lineNumberTransformer.transform(upperTransformer.transform(s)));
+      }
 
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
+    } finally {
+      try {
+        if (isr != null) isr.close();
+      } catch (IOException ex) {
+        LOG.log(Level.SEVERE, ex.toString(), ex);
+      }
+      try {
+        if (osw != null) osw.close();
+      } catch (IOException ex) {
+        LOG.log(Level.SEVERE, ex.toString(), ex);
+      }
     }
   }
 }
