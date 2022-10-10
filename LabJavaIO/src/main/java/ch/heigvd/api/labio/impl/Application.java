@@ -127,6 +127,7 @@ public class Application {
 
     FileOutputStream fos = new FileOutputStream(file);
     fos.write(quote.getQuote().getBytes(StandardCharsets.UTF_8));
+    fos.close();
   }
   
   public void processQuoteFiles() throws IOException {
