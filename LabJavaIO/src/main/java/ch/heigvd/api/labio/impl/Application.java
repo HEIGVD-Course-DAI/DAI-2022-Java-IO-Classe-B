@@ -5,8 +5,8 @@ import ch.heigvd.api.labio.quotes.Quote;
 import ch.heigvd.api.labio.quotes.QuoteClient;
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,19 +26,12 @@ public class Application {
   private static final Logger LOG = Logger.getLogger(Application.class.getName());
   
   public static void main(String[] args) {
-    LineNumberingCharTransformer lol = new LineNumberingCharTransformer();
-
-    String input = "mdr YXjpp commentYXc'estYX trop droleYX lol.";
-    String output = lol.transform(input);
-    System.out.println("INPUT :\n" + input);
-    System.out.println("OUTPUT :\n" + output);
-    
     /*
      * I prefer to have LOG output on a single line, it's easier to read. Being able
      * to change the formatting of console outputs is one of the reasons why it is
      * better to use a Logger rather than using System.out.println
      */
-    /*System.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%6$s%n");
+    System.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%6$s%n");
        
     int numberOfQuotes = 0;
     try {
@@ -49,27 +42,27 @@ public class Application {
     }
 
     Application app = new Application();
-    try {*/
+    try {
       /*
        * Step 1 : clear the output directory
        */
-      //app.clearOutputDirectory();
+      app.clearOutputDirectory();
       
       /*
        * Step 2 : use the QuotesClient to fetch quotes; store each quote in a file
        */
-      //app.fetchAndStoreQuotes(numberOfQuotes);
+      app.fetchAndStoreQuotes(numberOfQuotes);
       
       /*
        * Step 3 : process the quote files, by applying 2 transformations to their content
        *          (convert to uppercase and add line numbers)
        */
-      //app.processQuoteFiles();
+      app.processQuoteFiles();
       
-    /*} catch (IOException ex) {
+    } catch (IOException ex) {
       LOG.log(Level.SEVERE, "Could not fetch quotes. {0}", ex.getMessage());
       ex.printStackTrace();
-    }*/
+    }
   }
 
   public void fetchAndStoreQuotes(int numberOfQuotes) throws IOException {
@@ -84,8 +77,7 @@ public class Application {
        *  Add the missing line which stores the content of the quote in a file with
        *  the name "quote-i.utf8" where 'i' is the number of the file.
        */
-      
-
+      storeQuote(quote, "quote-" + i + ".utf8");
       LOG.info("Received a new joke with " + quote.getTags().size() + " tags.");
       for (String tag : quote.getTags()) {
         LOG.info("> " + tag);
@@ -141,7 +133,11 @@ public class Application {
      *   using an output stream.
      *   Write the file with encoding UTF-8.
      */
-     FileUtils.writeStringToFile(file, quote.getQuote(), "UTF-8");
+
+    OutputStream os = new FileOutputStream(file);
+    OutputStreamWriter osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
+    osw.write(quote.getContent());
+    osw.close();
   }
   
   public void processQuoteFiles() throws IOException {
