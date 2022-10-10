@@ -17,22 +17,24 @@ import java.util.logging.Logger;
  * @author Olivier Liechti, Juergen Ehrensberger
  */
 public class LineNumberingCharTransformer {
-    private static final Logger LOG = Logger.getLogger(UpperCaseCharTransformer.class.getName());
+    private static final Logger LOG = Logger.getLogger(LineNumberingCharTransformer.class.getName());
+    private int line = 0;
 
     public String transform(String c) {
         /* TODO: implement the transformation here.
          */
-        c = c.replace("\r\n", "\n");
-        StringBuilder sb = new StringBuilder(c);
-        int lineNbr = 1;
-        sb.insert(0, String.format("%d. ", lineNbr));
-        lineNbr++;
-        for (int i = 0; i < sb.length(); i++) {
-            if (sb.charAt(i) == '\n') {
-                sb.insert(i + 1, String.format("%d. ", lineNbr));
-                lineNbr++;
-            }
+
+        if (line == 0) {
+            line++;
+            c = "1. " + c;
         }
-        return sb.toString();
+        if (c.equals("\r".toString())) {
+            return "".toString();
+        }
+
+        if (c.substring(c.length() - 1).equals("\n".toString())) {
+            c = c + String.format("%d. ", ++line);
+        }
+        return c;
     }
 }
