@@ -23,25 +23,21 @@ public class FileExplorer {
          *  - to check if an item is a file or a directory
          *  For each file, call the FileTransformer (see above).
          *  For each directory, recursively explore the directory.
-         *
-         * Update : Elliot solved it for now but could be improved
          */
-        // throw new UnsupportedOperationException("The student has not implemented this method yet.");
-        exec(rootDirectory.listFiles());
+        exploreFiles(rootDirectory.listFiles());
     }
-    public void exec(File[] files) {
-        if(files == null || files.length == 0) {
+    private void exploreFiles(File[] files) {
+        if (files == null || files.length == 0) {
             return;
         }
+
         Arrays.sort(files, Comparator.comparing(File::getName));
         for(File file: files) {
             if(file.isFile()) {
                 transformer.transform(file);
-            } else if(file.isDirectory()) {
-                exec(file.listFiles());
-            } else {
-                return;
+                continue;
             }
+            exploreFiles(file.listFiles());
         }
     }
 }
