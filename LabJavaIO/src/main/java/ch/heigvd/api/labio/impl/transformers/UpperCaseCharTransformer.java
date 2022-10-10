@@ -12,8 +12,6 @@ public class UpperCaseCharTransformer {
     private static final Logger LOG = Logger.getLogger(UpperCaseCharTransformer.class.getName());
 
     public String transform(String c) {
-        /* TODO: implement the transformation here.
-         */
         //We check if it's a letter and add it to the output string after changing it
         //https://intellipaat.com/community/35416/how-do-i-apply-the-for-each-loop-to-every-character-in-a-string
         //https://stackoverflow.com/questions/4047808/what-is-the-best-way-to-tell-if-a-character-is-a-letter-or-number-in-java-withou
