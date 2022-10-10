@@ -5,6 +5,7 @@ import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
 import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,9 +50,9 @@ public class FileTransformer {
      *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
      */
     try {
-      FileReader fis = new FileReader(inputFile);
-      FileWriter fw = new FileWriter(inputFile + ".out");
-      int charCode = fis.read();
+      FileReader fis = new FileReader(inputFile, StandardCharsets.UTF_8);
+      FileWriter fw = new FileWriter(inputFile + ".out", StandardCharsets.UTF_8);
+      int charCode;
       while((charCode = fis.read()) != -1) {
         String content = String.valueOf((char)charCode);
         content = noOp.transform(content);
@@ -60,6 +61,7 @@ public class FileTransformer {
         fw.write(content);
       }
       fis.close();
+      fw.close();
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }
