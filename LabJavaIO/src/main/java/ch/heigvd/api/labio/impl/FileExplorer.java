@@ -30,7 +30,7 @@ public class FileExplorer {
             if (list_of_file == null) return;
             Arrays.sort(list_of_file);
             for (String file : list_of_file) {
-                File current = new File(rootDirectory.getPath() + "\\" + file);
+                File current = new File(rootDirectory.getPath() + "/" + file);
                 explore(current);
             }
         }
