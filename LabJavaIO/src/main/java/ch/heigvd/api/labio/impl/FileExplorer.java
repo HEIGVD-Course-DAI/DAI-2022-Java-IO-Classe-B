@@ -1,6 +1,7 @@
 package ch.heigvd.api.labio.impl;
 
 import java.io.File;
+import java.util.Arrays;
 
 /**
  * The FileExplorer performs an exploration of the file system. It
@@ -26,6 +27,7 @@ public class FileExplorer {
 
         File[] listOfFiles = rootDirectory.listFiles();
         if (listOfFiles != null) {
+            Arrays.sort(listOfFiles);
             for (File f : listOfFiles) {
                 if (f.exists()) {
                     if (f.isFile()) {
