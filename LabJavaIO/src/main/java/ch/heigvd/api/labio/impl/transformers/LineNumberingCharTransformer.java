@@ -18,24 +18,22 @@ import java.util.logging.Logger;
  */
 public class LineNumberingCharTransformer {
     private static final Logger LOG = Logger.getLogger(UpperCaseCharTransformer.class.getName());
+    private static final String CHAR_AFTER_NUMBER = ". ";
     private int counter = 0;
 
     public String transform(String c) {
-        if (counter == 0) {
-            if (c.equals("\n")) {
-                return ++counter + ". " + c + ++counter + ". ";
-
-            } else {
-                return ++counter + ". " + c;
-            }
+        if (counter == 0 && !c.equals("\n")) {
+            return ++counter + CHAR_AFTER_NUMBER + c;
         }
 
         if (c.equals("\n")) {
-            return c + ++counter + ". ";
-
+            if (counter == 0) {
+                return ++counter + CHAR_AFTER_NUMBER + c + ++counter + CHAR_AFTER_NUMBER;
+            } else {
+                return c + ++counter + CHAR_AFTER_NUMBER;
+            }
         } else if (c.equals("\r")) {
             return "";
-
         } else {
             return c;
         }

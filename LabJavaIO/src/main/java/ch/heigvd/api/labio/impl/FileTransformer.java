@@ -15,6 +15,7 @@ import java.util.logging.Logger;
  * @author Juergen Ehrensberger
  */
 public class FileTransformer {
+    static final String CHARSET = "UTF-8";
     private static final Logger LOG = Logger.getLogger(FileTransformer.class.getName());
 
     public void transform(File inputFile) {
@@ -32,10 +33,9 @@ public class FileTransformer {
          *  Later, replace it by a combination of the UpperCaseCharTransformer
          *  and the LineNumberCharTransformer.
          */
-        // ... transformer = ...
 
-        UpperCaseCharTransformer upcct = new UpperCaseCharTransformer();
-        LineNumberingCharTransformer lnct = new LineNumberingCharTransformer();
+        UpperCaseCharTransformer upperTransformer = new UpperCaseCharTransformer();
+        LineNumberingCharTransformer lineTransformer = new LineNumberingCharTransformer();
 
         /* TODO: implement the following logic here:
          *  - open the inputFile and an outputFile
@@ -45,53 +45,33 @@ public class FileTransformer {
          *  - For each character, apply a transformation: start with NoOpCharTransformer,
          *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
          */
-        //TODO verify behavior !!
         if (inputFile.exists() && inputFile.isFile()) {
-            try {
-                final String CHARSET = "UTF-8";
+            File newFile = new File(inputFile.getParent(), inputFile.getName() + ".out");
 
-                InputStreamReader isr = new InputStreamReader(new FileInputStream(inputFile), CHARSET);
-
-
-                File newFile = new File(inputFile.getParent(), inputFile.getName() + ".out");
-
-                //System.out.println("Written file : " + newFile.getName());
-
-                OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(newFile), CHARSET);
+            try (InputStreamReader isr = new InputStreamReader(new FileInputStream(inputFile), CHARSET);
+                 OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(newFile), CHARSET)) {
 
                 //1st char case:
                 int b = isr.read();
                 if (b != -1) {
-                    String cUpper = upcct.transform(String.valueOf((char) (b)));
-                    String cLine = lnct.transform(cUpper);
+                    String cUpper = upperTransformer.transform(String.valueOf((char) (b)));
+                    String cLine = lineTransformer.transform(cUpper);
                     osw.write(cLine);
                 }
 
                 while ((b = isr.read()) != -1) {
+                    char charToProcess = (char) (b);
 
-                    if ((char) (b) == '\n') {
-                        //todo add number at beginning
-                        String cLine = lnct.transform(String.valueOf((char) (b)));
-                        //System.out.println("Line number --> VALUE : " + cLine + " " + (char) (b));
+                    if (charToProcess == '\n') {
+                        String cLine = lineTransformer.transform(String.valueOf(charToProcess));
                         osw.write(cLine);
-
-
-                    } else if ((char) (b) == '\r') {
-
-                    } else {
-                        String cUpper = upcct.transform(String.valueOf((char) (b)));
-                        //System.out.println("Uppercase --> VALUE : " + cUpper + " " + (char) (b));
+                    } else if (charToProcess != '\r') {
+                        String cUpper = upperTransformer.transform(String.valueOf(charToProcess));
                         osw.write(cUpper);
                     }
-
-
                 }
-                isr.close();
-                osw.close();
             } catch (Exception ex) {
                 LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
-            } finally {
-
             }
         }
     }
