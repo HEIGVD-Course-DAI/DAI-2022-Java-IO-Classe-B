@@ -21,18 +21,24 @@ public class LineNumberingCharTransformer {
     private int counter = 0;
 
     public String transform(String c) {
-        /* TODO: implement the transformation here.
-         */
+        if (counter == 0) {
+            if (c.equals("\n")) {
+                return ++counter + ". " + c + ++counter + ". ";
+
+            } else {
+                return ++counter + ". " + c;
+            }
+        }
 
         if (c.equals("\n")) {
             return c + ++counter + ". ";
 
+        } else if (c.equals("\r")) {
+            return "";
+
         } else {
-            return ++counter + ". " + c;
-
+            return c;
         }
-
-        //throw new UnsupportedOperationException("The student has not implemented this method yet.");
     }
 }
 

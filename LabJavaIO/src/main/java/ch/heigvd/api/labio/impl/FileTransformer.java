@@ -55,21 +55,24 @@ public class FileTransformer {
 
                 File newFile = new File(inputFile.getParent(), inputFile.getName() + ".out");
 
-                System.out.println("Written file : " + newFile.getName());
+                //System.out.println("Written file : " + newFile.getName());
 
                 OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(newFile), CHARSET);
+
+                //1st char case:
                 int b = isr.read();
                 if (b != -1) {
                     String cUpper = upcct.transform(String.valueOf((char) (b)));
                     String cLine = lnct.transform(cUpper);
                     osw.write(cLine);
                 }
+
                 while ((b = isr.read()) != -1) {
 
                     if ((char) (b) == '\n') {
                         //todo add number at beginning
                         String cLine = lnct.transform(String.valueOf((char) (b)));
-                        System.out.println("Line number --> VALUE : " + cLine + " " + (char) (b));
+                        //System.out.println("Line number --> VALUE : " + cLine + " " + (char) (b));
                         osw.write(cLine);
 
 
@@ -77,7 +80,7 @@ public class FileTransformer {
 
                     } else {
                         String cUpper = upcct.transform(String.valueOf((char) (b)));
-                        System.out.println("Uppercase --> VALUE : " + cUpper + " " + (char) (b));
+                        //System.out.println("Uppercase --> VALUE : " + cUpper + " " + (char) (b));
                         osw.write(cUpper);
                     }
 
