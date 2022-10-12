@@ -1,6 +1,5 @@
 package ch.heigvd.api.labio.impl;
 
-import java.io.File;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
@@ -32,18 +31,26 @@ public class FileTransformer {
     var upperCaseCharTrans = new UpperCaseCharTransformer();
 
     try {
-      var inputStream = new FileReader(inputFile.getAbsoluteFile(), StandardCharsets.UTF_8);
-      var outputStream = new FileWriter(inputFile.getAbsoluteFile() + ".out", StandardCharsets.UTF_8);
-      int readedChar;
+      // Instantiates reader and writer
+      var fileReader = new FileReader(inputFile.getAbsoluteFile(), StandardCharsets.UTF_8);
+      var bufferedReader = new BufferedReader(fileReader);
+      var fileWriter = new FileWriter(inputFile.getAbsoluteFile() + ".out", StandardCharsets.UTF_8);
+      var bufferedWriter = new BufferedWriter(fileWriter);
+      int charRead;
+      String currentChar;
 
-      while ((readedChar = inputStream.read()) != -1) {
-        String c = upperCaseCharTrans.transform(String.valueOf((char)readedChar));
-        c = lineNumberingCharTrans.transform(c);
-        outputStream.append(c);
+      // Copy file with transformations
+      while ((charRead = bufferedReader.read()) != -1) {
+        currentChar = String.valueOf((char)charRead);
+        currentChar = upperCaseCharTrans.transform(currentChar);
+        currentChar = lineNumberingCharTrans.transform(currentChar);
+        bufferedWriter.append(currentChar);
       }
 
-      inputStream.close();
-      outputStream.close();
+      // Close readers and writers
+      bufferedReader.close();
+      bufferedWriter.flush();
+      bufferedWriter.close();
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }
