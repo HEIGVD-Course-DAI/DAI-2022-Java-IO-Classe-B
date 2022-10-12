@@ -15,21 +15,7 @@ public class UpperCaseCharTransformer {
     /* TODO: implement the transformation here.
      */
 
-    char ch;
-
-    StringBuilder str = new StringBuilder();
-
-    for (int i = 0; i < c.length(); i++) {
-      ch = c.charAt(i);
-      if (Character.isLowerCase(ch)) {
-        ch = Character.toUpperCase(ch);
-      }
-
-      str.append(Character.toString(ch));
-
-    }
-
-    return str.toString();
+    return c.toUpperCase();
 
     //throw new UnsupportedOperationException("The student has not implemented this method yet.");
   }

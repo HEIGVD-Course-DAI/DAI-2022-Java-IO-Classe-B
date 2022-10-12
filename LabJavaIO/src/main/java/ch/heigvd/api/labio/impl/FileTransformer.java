@@ -3,12 +3,10 @@ package ch.heigvd.api.labio.impl;
 import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
 import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.nio.charset.StandardCharsets;
 
 /**
  * This class transforms files. The transform method receives an inputFile.
@@ -53,27 +51,32 @@ public class FileTransformer {
     try {
       if (inputFile.exists() && inputFile.isFile()) {
 
-        FileReader fr = new FileReader(inputFile, StandardCharsets.UTF_8);
+        String contents = "";
 
-        String contents = new String(java.nio.file.Files.readAllBytes(inputFile.toPath()));
+        InputStreamReader in = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8);
 
-        int c = fr.read();
+        int c = in.read();
 
-        char[] chars = new char[c];
+        while (c != -1) {
+         contents += (char) c;
+          c = in.read();
+        }
 
-        fr.read(chars);
+        String result = "";
 
-        fr.close();
+        for (int i = 0; i < contents.length(); i++) {
 
-        String s = new String(chars);
+          String tempString = contents.substring(i, i + 1);
+          tempString = upperCaseCharTransformer.transform(tempString);
+          tempString = lineNumberingCharTransformer.transform(tempString);
+          result += tempString;
+        }
 
-        s = upperCaseCharTransformer.transform(s);
+        FileWriter fw = new FileWriter(inputFile.getAbsoluteFile() + ".out", StandardCharsets.UTF_8);
 
-        s = lineNumberingCharTransformer.transform(s);
-
-        FileWriter fw = new FileWriter(inputFile.getName() + ".out", StandardCharsets.UTF_8);
-
-        fw.write(s);
+        for (int i = 0; i < result.length(); i++) {
+          fw.write(result.charAt(i));
+        }
 
         fw.close();
 
