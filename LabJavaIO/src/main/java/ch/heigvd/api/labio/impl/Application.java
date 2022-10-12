@@ -1,11 +1,11 @@
 package ch.heigvd.api.labio.impl;
 
-import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
 import ch.heigvd.api.labio.quotes.Quote;
 import ch.heigvd.api.labio.quotes.QuoteClient;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,13 +26,15 @@ public class Application {
   private static final Logger LOG = Logger.getLogger(Application.class.getName());
   
   public static void main(String[] args) {
+
     /*
      * I prefer to have LOG output on a single line, it's easier to read. Being able
      * to change the formatting of console outputs is one of the reasons why it is
      * better to use a Logger rather than using System.out.println
      */
     System.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%6$s%n");
-       
+
+
     int numberOfQuotes = 0;
     try {
       numberOfQuotes = Integer.parseInt(args[0]);
@@ -122,11 +124,11 @@ public class Application {
     /* Now write the quote into the file using Output streams.
      * The content of the file is in quote.getQuote().
      */
-
-    OutputStream os = new FileOutputStream(file);
-    OutputStreamWriter osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
-    osw.write(quote.getContent());
-    osw.close();
+    FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8);
+    BufferedWriter bufferedWriter = new BufferedWriter(writer);
+    bufferedWriter.write(quote.getQuote());
+    bufferedWriter.flush();
+    bufferedWriter.close();
   }
   
   public void processQuoteFiles() throws IOException {
