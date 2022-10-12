@@ -26,15 +26,15 @@ public class Application {
   private static final Logger LOG = Logger.getLogger(Application.class.getName());
   
   public static void main(String[] args) {
-
+    
     /*
      * I prefer to have LOG output on a single line, it's easier to read. Being able
      * to change the formatting of console outputs is one of the reasons why it is
      * better to use a Logger rather than using System.out.println
      */
     System.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%6$s%n");
-
-
+    
+       
     int numberOfQuotes = 0;
     try {
       numberOfQuotes = Integer.parseInt(args[0]);
@@ -42,7 +42,7 @@ public class Application {
       System.err.println("The command accepts a single numeric argument (number of quotes to fetch)");
       System.exit(-1);
     }
-
+        
     Application app = new Application();
     try {
       /*
