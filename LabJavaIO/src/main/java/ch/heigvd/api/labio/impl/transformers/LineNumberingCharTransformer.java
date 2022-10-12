@@ -24,21 +24,24 @@ public class LineNumberingCharTransformer {
   private boolean isFirstChar = true;
 
   public String transform(String c) {
-    String out = c;
-
+    // Remove carriage return
     if (Objects.equals(c, "\r")) {
-      out = "";
+      c = "";
     }
 
+    // Add a line number before the first char
     if (isFirstChar) {
-      out = (currentLineNumber++) + ". " + out;
+      c = (currentLineNumber++) + ". " + c;
       isFirstChar = false;
     }
 
-    if (Objects.equals(c, "\n")) {
-      out += (currentLineNumber++) + ". ";
+    // Add line number after line return.
+    // Since there could have been a line number added before (in case of first char)
+    // we check the last char to see if it is a line return
+    if (c.endsWith("\n")) {
+      c += (currentLineNumber++) + ". ";
     }
 
-    return out;
+    return c;
   }
 }
