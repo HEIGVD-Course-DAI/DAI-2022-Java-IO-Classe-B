@@ -81,7 +81,7 @@ public class FileExplorerTest {
     }
 
     @Test
-    public void itShouldWorkWithMissingDirectory() {
+    public void itShouldWorkWithMissingDirectory() throws IOException {
         Path path = Paths.get(workingDirectory, "missingDir");
         FileExplorer explorer = new FileExplorer();
         explorer.explore(path.toFile());
