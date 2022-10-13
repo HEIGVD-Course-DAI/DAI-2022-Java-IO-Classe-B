@@ -37,6 +37,7 @@ public class FileTransformer {
     // Usually, the quotes are really small, so no buffered reader / writer
     try (FileReader fis = new FileReader(inputFile, StandardCharsets.UTF_8);
          FileWriter fw = new FileWriter(inputFile + ".out", StandardCharsets.UTF_8)) {
+
       int charCode;
       while((charCode = fis.read()) != -1) {
         String content = String.valueOf((char)charCode);
@@ -46,6 +47,7 @@ public class FileTransformer {
         fw.write(content);
       }
       fw.flush();
+
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }

@@ -29,7 +29,7 @@ public class FileExplorer {
                 transformer.transform(file);
                 continue;
             }
-            exploreFiles(file.listFiles());
+            exploreFiles(file.listFiles()); // At this point, file is a dir
         }
     }
 }

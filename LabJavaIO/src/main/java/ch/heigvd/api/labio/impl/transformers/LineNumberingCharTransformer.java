@@ -28,7 +28,7 @@ public class LineNumberingCharTransformer {
       return "";
 
     if(lineIndex == 1) {
-      // Special case when the
+      // Special case when the first line and first char is a breakline
       if(c.equals("\n"))
         return String.format("%d. %s%d. ",lineIndex++, c, lineIndex++);
 

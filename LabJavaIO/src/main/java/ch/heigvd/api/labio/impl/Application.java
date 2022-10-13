@@ -124,9 +124,9 @@ public class Application {
     /* Now write the quote into the file using Output streams.
      * The content of the file is in quote.getQuote().
      */
-    String filepath = String.format("%s\\%s", path, filename);
-    try (FileWriter fw = new FileWriter(filepath, StandardCharsets.UTF_8)) {
-      fw.write(quote.getContent());
+
+    try (FileWriter fw = new FileWriter(file, StandardCharsets.UTF_8)) {
+      fw.write(quote.getQuote());
       fw.flush();
     } catch (Exception e) {
       LOG.log(Level.SEVERE, "Error while writing the received quote", e);
