@@ -19,9 +19,25 @@ import java.util.logging.Logger;
 public class LineNumberingCharTransformer {
   private static final Logger LOG = Logger.getLogger(LineNumberingCharTransformer.class.getName());
 
+  private int lineIndex = 1;
   public String transform(String c) {
-    /* TODO: implement the transformation here.
-     */
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    if (c == null)
+      throw new IllegalArgumentException("Must specify a string");
+
+    if(c.length() == 0 || c.equals("\r"))
+      return "";
+
+    if(lineIndex == 1) {
+      // Special case when the first line and first char is a breakline
+      if(c.equals("\n"))
+        return String.format("%d. %s%d. ",lineIndex++, c, lineIndex++);
+
+      return String.format("%d. %s", lineIndex++, c);
+    }
+
+    if(c.equals("\n")) {
+      return String.format("%s%d. ", c, lineIndex++);
+    }
+    return c;
   }
 }
