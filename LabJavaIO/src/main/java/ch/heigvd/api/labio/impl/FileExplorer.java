@@ -14,27 +14,24 @@ import java.util.Arrays;
 public class FileExplorer {
 
     public void explore(File rootDirectory) {
-        FileTransformer transformer = new FileTransformer();
         if (!rootDirectory.exists()) return;
-        String[] contents = rootDirectory.list();
-        System.out.println("List of files and directories in the specified directory:");
-        assert contents != null;
-        for (String content : contents) {
-            System.out.println(content);
-        }
-        Arrays.sort(contents);
 
+        // Init variables
+        FileTransformer transformer = new FileTransformer();
         File[] listOfFiles = rootDirectory.listFiles();
         assert listOfFiles != null;
-        for(File file : listOfFiles) {
-            if(file.isFile()) {
+
+        // Comparing 2 files is comparing by the name of the file
+        Arrays.sort(listOfFiles);
+
+        // Iterate every file in directory
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
                 transformer.transform(file);
             }
-            if(file.isDirectory()) {
+            if (file.isDirectory()) {
                 explore(file);
             }
-
         }
-
     }
 }
