@@ -36,9 +36,9 @@ public class FileTransformer {
       BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8));
       BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(inputFile.getAbsolutePath() + ".out"), StandardCharsets.UTF_8));
 
-      char c;
-      while ((c = (char) reader.read()) != 65535) {
-        writer.write(upperCaseCharTransformer.transform(lineNumberingCharTransformer.transform(String.valueOf(c))));
+      int c;
+      while ((c = reader.read()) != -1) {
+        writer.write(upperCaseCharTransformer.transform(lineNumberingCharTransformer.transform(String.valueOf((char)c))));
       }
 
       writer.flush();
