@@ -110,6 +110,9 @@ public class FileTransformerTest {
         reader.close();
         String output = String.valueOf(buffer, 0, l);
 
+        System.out.println(source);
+        System.out.println(output);
+
         assertTrue(target.equals(output));
     }
 }

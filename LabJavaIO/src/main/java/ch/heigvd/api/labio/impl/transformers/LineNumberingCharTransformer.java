@@ -17,11 +17,26 @@ import java.util.logging.Logger;
  * @author Olivier Liechti, Juergen Ehrensberger
  */
 public class LineNumberingCharTransformer {
+  private int lineNumber = 1;
+  private boolean firstChar = true;
   private static final Logger LOG = Logger.getLogger(LineNumberingCharTransformer.class.getName());
 
   public String transform(String c) {
-    /* TODO: implement the transformation here.
-     */
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    c = c.replaceAll("\r", "");
+
+    StringBuilder output = new StringBuilder();
+    if (firstChar){
+      firstChar = false;
+      output.append(lineNumber++).append(". ");
+    }
+
+    if (c.equals("\n")){
+      output.append(c).append(lineNumber++).append(". ");
+    }
+    else{
+      output.append(c);
+    }
+
+    return output.toString();
   }
 }
