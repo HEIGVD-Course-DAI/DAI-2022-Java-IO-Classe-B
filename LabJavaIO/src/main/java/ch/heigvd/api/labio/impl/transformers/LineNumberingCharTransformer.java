@@ -22,10 +22,18 @@ public class LineNumberingCharTransformer {
   private int lineCount = 1;
 
   public String transform(String c) {
+    String s = "";
+
     c = c.replace("\r", "");
+
+    if (lineCount == 1)
+      s += lineCount++ + ". ";
+
+    s += c;
+
     if (Objects.equals(c, "\n"))
-        return c + lineCount++ + ". " ;
-    else
-      return lineCount == 1 ? lineCount++ + ". " + c : c;
+        s += lineCount++ + ". " ;
+
+    return s;
   }
 }
