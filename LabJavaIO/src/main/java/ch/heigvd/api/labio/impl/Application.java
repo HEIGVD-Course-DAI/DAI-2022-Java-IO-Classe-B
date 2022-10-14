@@ -36,7 +36,7 @@ public class Application {
        
     int numberOfQuotes = 0;
     try {
-      numberOfQuotes = 3;//Integer.parseInt(args[0]); TODO Apprendre à compiler un programme java à la main bruuuuh
+      numberOfQuotes = Integer.parseInt(args[0]);
     } catch (Exception e) {
       System.err.println("The command accepts a single numeric argument (number of quotes to fetch)");
       System.exit(-1);
