@@ -22,8 +22,6 @@ public class LineNumberingCharTransformer {
   private static final Logger LOG = Logger.getLogger(UpperCaseCharTransformer.class.getName());
 
   public String transform(String c) {
-    /* TODO: implement the transformation here.
-     */
     c = c.replaceAll("\r", "");
 
     StringBuilder output = new StringBuilder();

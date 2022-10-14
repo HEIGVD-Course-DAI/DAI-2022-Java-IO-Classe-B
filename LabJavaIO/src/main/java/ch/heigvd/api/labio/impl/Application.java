@@ -125,11 +125,13 @@ public class Application {
         File file = new File(directory, filename);
 
         // Now write the quote into the file using Output streams.
-        OutputStreamWriter stream = new OutputStreamWriter(
-                new FileOutputStream(file), StandardCharsets.UTF_8);
-        stream.write(quote.getQuote());
-        stream.flush();
-        stream.close();
+        try (OutputStreamWriter stream = new OutputStreamWriter(
+                new FileOutputStream(file), StandardCharsets.UTF_8)) {
+            stream.write(quote.getQuote());
+            stream.flush();
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Error while writing the quote into the file.", ex);
+        }
     }
 
     public void processQuoteFiles() throws IOException {

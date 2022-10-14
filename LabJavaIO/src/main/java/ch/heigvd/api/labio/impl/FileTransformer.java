@@ -31,35 +31,22 @@ public class FileTransformer {
          * a character transformer to transform the character before writing it to the output.
          */
 
-        /* TODO: first start with the NoOpCharTransformer which does nothing.
-         *  Later, replace it by a combination of the UpperCaseCharTransformer
-         *  and the LineNumberCharTransformer.
-         */
+        UpperCaseCharTransformer t1 = new UpperCaseCharTransformer();
+        LineNumberingCharTransformer t2 = new LineNumberingCharTransformer();
 
-        // ... transformer = ...
-        UpperCaseCharTransformer transformer1 = new UpperCaseCharTransformer();
-        LineNumberingCharTransformer transformer2 = new LineNumberingCharTransformer();
+        File outputFile = new File(inputFile.getPath() + ".out");
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                new FileInputStream(inputFile),
+                StandardCharsets.UTF_8));
+             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+                     new FileOutputStream(outputFile),
+                     StandardCharsets.UTF_8));) {
 
-        /* TODO: implement the following logic here:
-         *  - open the inputFile and an outputFile
-         *    Use UTF-8 encoding for both.
-         *    Filename of the output file: <inputFile-Name>.out (that is add ".out" at the end)
-         *  - Copy all characters from the input file to the output file.
-         *  - For each character, apply a transformation: start with NoOpCharTransformer,
-         *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
-         */
-        try {
-            String input = FileUtils.readFileToString(inputFile);
-            File outputFile = new File(inputFile.getPath() + ".out");
-
-            StringBuilder output = new StringBuilder();
-            for (int i=0; i<input.length(); i++) {
-                String s = Character.toString(input.charAt(i));
-                output.append(transformer2.transform(transformer1.transform(s)));
+            while (br.ready()) {
+                String c = Character.toString(br.read());
+                bw.write(t1.transform(t2.transform(c)));
             }
-
-            FileUtils.writeStringToFile(outputFile, output.toString());
-
+            bw.flush();
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
         }
