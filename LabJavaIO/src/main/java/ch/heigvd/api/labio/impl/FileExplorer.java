@@ -18,6 +18,9 @@ public class FileExplorer {
 
         File[] childFiles = rootDirectory.listFiles();
 
+        if (childFiles == null)
+            return;
+
         Arrays.sort(childFiles);
 
         for (File childFile : childFiles) {
