@@ -120,20 +120,11 @@ public class Application {
     // Create the output file under the new directory. Use the filename received as parameter.
     File file = new File(directory, filename);
 
-    /* Now write the quote into the file using Output streams.
-     * The content of the file is in quote.getQuote().
-     * TODO: There is something missing here: you have to implement writing the file
-     *   using an output stream.
-     *   Write the file with encoding UTF-8.
-     */
-
     OutputStreamWriter output = new OutputStreamWriter(new FileOutputStream(file.getAbsolutePath()), StandardCharsets.UTF_8);
     output.write(quote.getQuote());
 
+    output.flush();
     output.close();
-
-
-
   }
   
   public void processQuoteFiles() throws IOException {

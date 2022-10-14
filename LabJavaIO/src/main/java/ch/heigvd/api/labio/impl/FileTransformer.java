@@ -1,7 +1,6 @@
 package ch.heigvd.api.labio.impl;
 
 import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
-import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
 import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
 
 import java.io.*;
@@ -34,15 +33,18 @@ public class FileTransformer {
     LineNumberingCharTransformer lineNumberingCharTransformer = new LineNumberingCharTransformer();
 
     try {
-      FileInputStream fis = new FileInputStream(inputFile);
-      InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
-      BufferedReader reader = new BufferedReader(isr);
-      OutputStream os = new FileOutputStream(inputFile.getAbsolutePath() + ".out");
+      BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8));
+      BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(inputFile.getAbsolutePath() + ".out"), StandardCharsets.UTF_8));
 
-      char c = '\n';
-      do {
-        os.write(upperCaseCharTransformer.transform(lineNumberingCharTransformer.transform(String.valueOf(c))).getBytes());
-      } while ((c = (char) reader.read()) != 65535);
+      char c;
+      while ((c = (char) reader.read()) != 65535) {
+        writer.write(upperCaseCharTransformer.transform(lineNumberingCharTransformer.transform(String.valueOf(c))));
+      }
+
+      writer.flush();
+      writer.close();
+
+      reader.close();
 
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
