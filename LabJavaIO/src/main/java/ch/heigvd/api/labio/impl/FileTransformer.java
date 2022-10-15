@@ -27,6 +27,7 @@ public class FileTransformer {
 
     try {
 
+      //new reader and writer
       FileReader fr = new FileReader(inputFile.getAbsolutePath(), StandardCharsets.UTF_8);
       FileWriter fw = new FileWriter(inputFile.getAbsolutePath() + ".out", StandardCharsets.UTF_8);
 
@@ -36,14 +37,18 @@ public class FileTransformer {
       int readChar;
       StringBuilder result = new StringBuilder();
 
-      while ((readChar = br.read()) != -1){
-        actualChar = String.valueOf((char)readChar);
+
+      while ((readChar = br.read()) != -1){ //while end of stream is not reached
+        actualChar = String.valueOf((char)readChar); //get the char in a string
+
+        //char transformation
         actualChar = upperTransformer.transform(actualChar);
         actualChar = lineTransformer.transform(actualChar);
-        result.append(actualChar);
+
+        result.append(actualChar); //append the transformed char to a string builder
       }
 
-      fw.write(result.toString());
+      fw.write(result.toString()); //write the string in the file
 
       fw.flush();
       fw.close();

@@ -20,21 +20,25 @@ public class LineNumberingCharTransformer {
   private static final Logger LOG = Logger.getLogger(LineNumberingCharTransformer.class.getName());
   private int counter = 0;
   public String transform(String c) {
+
+    //if first line add line number
     if(!c.equals("\n") && counter == 0) {
       return ++counter + ". " + c;
     }
 
+    //if first line begins with \n add line number then \n then line number of second line
     if(c.equals("\n") && counter == 0){
       return ++counter + ". " + c + ++counter + ". ";
     }
 
+    //if end line return end line char plus counter of next line
     if(c.equals("\n")){
       return c+ ++counter + ". ";
     }
-    else if(c.equals("\r")){
+    else if(c.equals("\r")){ //if \r just ignore
       return "";
     }
-    else{
+    else{ //otherwise return the char untouched
       return c;
     }
   }

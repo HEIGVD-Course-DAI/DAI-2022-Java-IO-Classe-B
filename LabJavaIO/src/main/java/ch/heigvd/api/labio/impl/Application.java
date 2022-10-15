@@ -9,8 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.io.OutputStreamWriter;
-import java.io.FileOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +23,6 @@ public class Application {
    * to where the Java application is invoked.
    */
   public static String WORKSPACE_DIRECTORY = "./workspace/quotes";
-  //public static String WORKSPACE_DIRECTORY =  "C:/Users/celes/Desktop/ggggg";
 
   private static final Logger LOG = Logger.getLogger(Application.class.getName());
   
@@ -125,12 +122,6 @@ public class Application {
     // Create the output file under the new directory. Use the filename received as parameter.
     File file = new File(directory, filename);
 
-    /* Now write the quote into the file using Output streams.
-     * The content of the file is in quote.getQuote().
-     * TODO: There is something missing here: you have to implement writing the file
-     *   using an output stream.
-     *   Write the file with encoding UTF-8.
-     */
     FileWriter fw = new FileWriter(file.getAbsolutePath(), StandardCharsets.UTF_8);
     fw.write(quote.getQuote());
     fw.flush();
