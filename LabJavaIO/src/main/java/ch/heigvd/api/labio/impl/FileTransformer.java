@@ -1,6 +1,10 @@
 package ch.heigvd.api.labio.impl;
 
-import java.io.File;
+import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,22 +29,56 @@ public class FileTransformer {
      * a character transformer to transform the character before writing it to the output.
      */
 
-    /* TODO: first start with the NoOpCharTransformer which does nothing.
-     *  Later, replace it by a combination of the UpperCaseCharTransformer
-     *  and the LineNumberCharTransformer.
-     */
-    // ... transformer = ...
+    UpperCaseCharTransformer upperCaseCharTransformer =
+            new UpperCaseCharTransformer();
 
-    /* TODO: implement the following logic here:
-     *  - open the inputFile and an outputFile
-     *    Use UTF-8 encoding for both.
-     *    Filename of the output file: <inputFile-Name>.out (that is add ".out" at the end)
-     *  - Copy all characters from the input file to the output file.
-     *  - For each character, apply a transformation: start with NoOpCharTransformer,
-     *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
-     */
+    LineNumberingCharTransformer lineNumberingCharTransformer =
+            new LineNumberingCharTransformer();
+
     try {
+      if (inputFile.exists() && inputFile.isFile()) {
 
+        // Creates the input stream using utf-8 encoding
+        // we are not using buffers as they're small files
+        InputStreamReader in = new InputStreamReader(new FileInputStream(inputFile),
+                StandardCharsets.UTF_8);
+
+        int c = in.read();
+
+        // Puts the every character of the file in a string builder
+        // we are using string builder to use the append method
+        StringBuilder contents = new StringBuilder();
+        while (c != -1) {
+         contents.append((char) c);
+          c = in.read();
+        }
+
+        in.close();
+
+
+        // Transforms every character and puts it in a string builder
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < contents.length(); i++) {
+          String tempString = contents.substring(i, i + 1);
+          tempString = upperCaseCharTransformer.transform(tempString);
+          tempString = lineNumberingCharTransformer.transform(tempString);
+          result.append(tempString);
+        }
+
+        // Creates the file writer using ut8-8 encoding
+        FileWriter fw = new FileWriter(inputFile.getAbsoluteFile() + ".out",
+                StandardCharsets.UTF_8);
+
+        // Writes every character in the file
+        for (int i = 0; i < result.length(); i++) {
+          fw.write(result.charAt(i));
+        }
+        fw.flush();
+        fw.close();
+
+      } else {
+        LOG.log(Level.SEVERE, "File {0} does not exist", inputFile.getAbsolutePath());
+      }
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }

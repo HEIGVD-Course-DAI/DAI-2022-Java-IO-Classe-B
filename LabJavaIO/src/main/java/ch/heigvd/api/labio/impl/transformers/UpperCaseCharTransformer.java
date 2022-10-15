@@ -9,11 +9,11 @@ import java.util.logging.Logger;
  * @author Olivier Liechti, Juergen Ehrensberger
  */
 public class UpperCaseCharTransformer {
-  private static final Logger LOG = Logger.getLogger(UpperCaseCharTransformer.class.getName());
+	private static final Logger LOG =
+            Logger.getLogger(UpperCaseCharTransformer.class.getName());
 
-  public String transform(String c) {
-    /* TODO: implement the transformation here.
-     */
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
-  }
+	public String transform(String c) {
+		// Transforms a letter to its uppercase
+		return c.toUpperCase();
+	}
 }
